@@ -1,0 +1,7 @@
+[wokwi]
+version = 1
+firmware = 'build/TestePlaca3kg.bin'
+elf = 'build/TestePlaca3kg.elf'
+
+[simulation]
+speed = 10.0  # Pode ajustar para 2.0, 5.0 ou mais

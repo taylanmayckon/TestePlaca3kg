@@ -59,7 +59,7 @@ void PWM_init(){
     ESP_ERROR_CHECK(ledc_channel_config(&ledc_channel_pwm2));
 }
 
-void PWM_change(int gpio_number, uint32_t duty_percent){
+void PWM_change(int pwm_channel, float duty_percent){
     if(duty_percent<0.0f){
         duty_percent = 0.0f;
     };
@@ -69,8 +69,8 @@ void PWM_change(int gpio_number, uint32_t duty_percent){
 
     uint32_t duty_int = (uint32_t)(duty_percent*TOP_PWM);
 
-    ESP_ERROR_CHECK(ledc_set_duty(LEDC_MODE, gpio_number, duty_int));
-    ESP_ERROR_CHECK(ledc_update_duty(LEDC_MODE, gpio_number));
+    ESP_ERROR_CHECK(ledc_set_duty(LEDC_MODE, pwm_channel, duty_int));
+    ESP_ERROR_CHECK(ledc_update_duty(LEDC_MODE, pwm_channel));
 }
 
 
@@ -120,6 +120,10 @@ void app_main(void){
         }
         PWM_change(LEDC_CHANNEL_PWM2, duty_percent2);
 
-        vTaskDelay(10/portTICK_PERIOD_MS);
+        // Indicando a rotação com LEDs
+        ESP_ERROR_CHECK(gpio_set_level(PDIG1, rise_pwm1));
+        ESP_ERROR_CHECK(gpio_set_level(PDIG2, rise_pwm2));
+
+        vTaskDelay(30/portTICK_PERIOD_MS);
     }
 }
